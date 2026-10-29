@@ -12,4 +12,11 @@ const agent = new Agent({
   },
 });
 const result = await run(agent, "Hola, ¿con quién estoy hablando?");
-console.log(result.finalOutput);
+console.log("Respuesta: ", result.finalOutput);
+console.log("Agente: ", result.lastAgent?.name);
+console.log(
+  "Pasos: ",
+  result.newItems.map((item) => item.type),
+);
+console.log("Historial: ", result.history.length, "elementos");
+console.log("Uso: ", result.state.usage);
