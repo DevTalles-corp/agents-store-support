@@ -1,6 +1,10 @@
 import { Agent, run } from "@openai/agents";
 import { MODEL } from "./config.js";
+import * as readline from "node:readline/promises";
 
+if (!process.env.OPENAI_API_KEY) {
+  throw new Error("Falta el OPENAI_API_KEY en el archivo .env");
+}
 const agent = new Agent({
   name: "Store Assistant",
   instructions: `Eres el asistente de soporte de una tienda online.
@@ -11,7 +15,16 @@ const agent = new Agent({
     text: { verbosity: "low" },
   },
 });
-const result = await run(agent, "Hola, me llamo Teddy");
-console.log(result.finalOutput);
-const result2 = await run(agent, "¿Cómo me llamo?");
-console.log(result2.finalOutput);
+const terminal = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+while (true) {
+  const message = (await terminal.question("Tú: ")).trim();
+  if (!message) continue;
+  if (message === "salir") break;
+
+  const result = await run(agent, message);
+  console.log(`\nAsistente: ${result.finalOutput}\n`);
+}
+terminal.close();
