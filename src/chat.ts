@@ -11,12 +11,7 @@ const agent = new Agent({
     text: { verbosity: "low" },
   },
 });
-const result = await run(agent, "Hola, ¿con quién estoy hablando?");
-console.log("Respuesta: ", result.finalOutput);
-console.log("Agente: ", result.lastAgent?.name);
-console.log(
-  "Pasos: ",
-  result.newItems.map((item) => item.type),
-);
-console.log("Historial: ", result.history.length, "elementos");
-console.log("Uso: ", result.state.usage);
+const result = await run(agent, "Hola, me llamo Teddy");
+console.log(result.finalOutput);
+const result2 = await run(agent, "¿Cómo me llamo?");
+console.log(result2.finalOutput);
