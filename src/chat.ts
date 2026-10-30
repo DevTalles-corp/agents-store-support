@@ -27,6 +27,11 @@ while (true) {
 
   const result = await run(agent, [...history, user(message)]);
   history = result.history;
+  console.log(JSON.stringify(history, null, 2));
+  console.log(
+    "Tokens de entrada de este turno: ",
+    result.state.usage.inputTokens,
+  );
 
   console.log(`\nAsistente: ${result.finalOutput}\n`);
 }
