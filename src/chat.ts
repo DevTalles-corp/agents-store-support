@@ -1,4 +1,4 @@
-import { Agent, run } from "@openai/agents";
+import { Agent, type AgentInputItem, run, user } from "@openai/agents";
 import { MODEL } from "./config.js";
 import * as readline from "node:readline/promises";
 
@@ -19,12 +19,15 @@ const terminal = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
+let history: AgentInputItem[] = [];
 while (true) {
   const message = (await terminal.question("Tú: ")).trim();
   if (!message) continue;
   if (message === "salir") break;
 
-  const result = await run(agent, message);
+  const result = await run(agent, [...history, user(message)]);
+  history = result.history;
+
   console.log(`\nAsistente: ${result.finalOutput}\n`);
 }
 terminal.close();
