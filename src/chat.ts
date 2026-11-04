@@ -1,12 +1,7 @@
-import {
-  Agent,
-  type AgentInputItem,
-  MemorySession,
-  run,
-  user,
-} from "@openai/agents";
+import { Agent, run } from "@openai/agents";
 import { MODEL } from "./config.js";
 import * as readline from "node:readline/promises";
+import { FileSession } from "./memory/fileSession.js";
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("Falta el OPENAI_API_KEY en el archivo .env");
@@ -25,7 +20,7 @@ const terminal = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
-const session = new MemorySession();
+const session = new FileSession("C-001");
 
 while (true) {
   const message = (await terminal.question("Tú: ")).trim();
