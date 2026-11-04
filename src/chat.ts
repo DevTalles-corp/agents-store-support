@@ -2,6 +2,7 @@ import { Agent, run } from "@openai/agents";
 import { MODEL } from "./config.js";
 import * as readline from "node:readline/promises";
 import { FileSession } from "./memory/fileSession.js";
+import { lastItems } from "./memory/historyWindow.js";
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("Falta el OPENAI_API_KEY en el archivo .env");
@@ -27,7 +28,11 @@ while (true) {
   if (!message) continue;
   if (message === "salir") break;
 
-  const result = await run(agent, message, { session });
+  const result = await run(agent, message, {
+    session,
+    sessionInputCallback: lastItems(30),
+    maxTurns: 5,
+  });
   console.log(`\nAsistente: ${result.finalOutput}\n`);
 }
 terminal.close();
