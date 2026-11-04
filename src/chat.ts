@@ -22,11 +22,19 @@ const terminal = readline.createInterface({
   output: process.stdout,
 });
 const session = new FileSession("C-001");
+console.log(
+  'Chat de soporte. Escribe "salir" para terminar o "/borrar" para olvidar la conversación.\n',
+);
 
 while (true) {
   const message = (await terminal.question("Tú: ")).trim();
   if (!message) continue;
   if (message === "salir") break;
+  if (message === "/borrar") {
+    await session.clearSession();
+    console.log("Historial borrado.\n");
+    continue;
+  }
 
   const result = await run(agent, message, {
     session,
