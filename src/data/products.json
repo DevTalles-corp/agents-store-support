@@ -1,0 +1,14 @@
+[
+  { "id": "P-101", "name": "Audífonos inalámbricos Pulse", "category": "audio", "price": 45.9, "stock": 12, "description": "Bluetooth 5.3, 30 horas de batería y estuche de carga." },
+  { "id": "P-102", "name": "Audífonos Pulse Pro con cancelación de ruido", "category": "audio", "price": 89, "stock": 0, "description": "Cancelación activa de ruido y 40 horas de batería." },
+  { "id": "P-103", "name": "Parlante Bluetooth Boom Mini", "category": "audio", "price": 32.5, "stock": 25, "description": "Resistente al agua (IPX7) y 12 horas de batería." },
+  { "id": "P-104", "name": "Audífonos con cable Pulse Lite", "category": "audio", "price": 14.9, "stock": 3, "description": "Conector USB-C y micrófono integrado para llamadas." },
+  { "id": "P-201", "name": "Funda de silicona para estuche Pulse", "category": "accessories", "price": 9.9, "stock": 60, "description": "Protege el estuche de carga de golpes y rayones. Compatible con Pulse y Pulse Pro." },
+  { "id": "P-202", "name": "Cable USB-C a USB-C de 2 m", "category": "accessories", "price": 8.5, "stock": 0, "description": "Cable trenzado de 60 W para carga y transferencia de datos." },
+  { "id": "P-203", "name": "Batería portátil 10 000 mAh", "category": "accessories", "price": 29.9, "stock": 18, "description": "Dos puertos USB-C y carga rápida de 20 W." },
+  { "id": "P-204", "name": "Cargador rápido USB-C 30 W", "category": "accessories", "price": 19, "stock": 40, "description": "Carga rápida para teléfonos y relojes con puerto USB-C." },
+  { "id": "P-301", "name": "Reloj inteligente Vita", "category": "wearables", "price": 79, "stock": 7, "description": "Monitor de ritmo cardíaco, GPS y 7 días de batería." },
+  { "id": "P-302", "name": "Pulsera de actividad Vita Band", "category": "wearables", "price": 34.9, "stock": 22, "description": "Cuenta pasos, mide el sueño y resiste el agua." },
+  { "id": "P-303", "name": "Reloj inteligente Vita Pro", "category": "wearables", "price": 129, "stock": 2, "description": "Pantalla AMOLED, llamadas desde la muñeca y pagos sin contacto." },
+  { "id": "P-304", "name": "Anillo inteligente Vita Ring", "category": "wearables", "price": 99, "stock": 0, "description": "Mide el sueño y el ritmo cardíaco, con 5 días de batería." }
+]

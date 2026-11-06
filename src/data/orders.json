@@ -1,0 +1,10 @@
+[
+  { "number": "1038", "customerId": "C-001", "status": "delivered", "purchaseDate": "2026-08-20", "estimatedDelivery": "2026-08-26", "carrier": "EnvíoYa", "items": [{ "productId": "P-302", "quantity": 1 }], "total": 34.9 },
+  { "number": "1039", "customerId": "C-002", "status": "delivered", "purchaseDate": "2026-09-30", "estimatedDelivery": "2026-10-04", "carrier": "RutaExpress", "items": [{ "productId": "P-101", "quantity": 1 }, { "productId": "P-202", "quantity": 2 }], "total": 62.9 },
+  { "number": "1042", "customerId": "C-001", "status": "shipped", "purchaseDate": "2026-10-12", "estimatedDelivery": "2026-10-23", "carrier": "EnvíoYa", "items": [{ "productId": "P-101", "quantity": 1 }], "total": 45.9 },
+  { "number": "1043", "customerId": "C-001", "status": "delivered", "purchaseDate": "2026-10-14", "estimatedDelivery": "2026-10-18", "carrier": "EnvíoYa", "items": [{ "productId": "P-204", "quantity": 1 }], "total": 19 },
+  { "number": "1044", "customerId": "C-001", "status": "cancelled", "purchaseDate": "2026-10-15", "estimatedDelivery": "2026-10-24", "carrier": "EnvíoYa", "items": [{ "productId": "P-102", "quantity": 1 }], "total": 89 },
+  { "number": "1050", "customerId": "C-002", "status": "preparing", "purchaseDate": "2026-10-28", "estimatedDelivery": "2026-11-08", "carrier": "RutaExpress", "items": [{ "productId": "P-301", "quantity": 1 }], "total": 79 },
+  { "number": "1055", "customerId": "C-003", "status": "shipped", "purchaseDate": "2026-10-30", "estimatedDelivery": "2026-11-10", "carrier": "RutaExpress", "items": [{ "productId": "P-303", "quantity": 1 }, { "productId": "P-203", "quantity": 1 }], "total": 158.9 },
+  { "number": "1056", "customerId": "C-003", "status": "preparing", "purchaseDate": "2026-11-03", "estimatedDelivery": "2026-11-12", "carrier": "EnvíoYa", "items": [{ "productId": "P-103", "quantity": 1 }], "total": 32.5 }
+]
