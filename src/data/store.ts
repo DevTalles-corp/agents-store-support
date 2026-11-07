@@ -40,3 +40,20 @@ export async function findCustomer(id: string): Promise<Customer | undefined> {
   const customers = await readJson<Customer[]>("customers.json");
   return customers.find((customer) => customer.id === id);
 }
+
+export async function findProduct(id: string): Promise<Product | undefined> {
+  const products = await readJson<Product[]>("products.json");
+  return products.find((product) => product.id === id);
+}
+
+export async function findOrder(
+  orderNumber: string,
+): Promise<Order | undefined> {
+  const orders = await readJson<Order[]>("orders.json");
+  return orders.find((order) => order.number === orderNumber);
+}
+
+export async function getCustomerOrders(customerId: string): Promise<Order[]> {
+  const orders = await readJson<Order[]>("orders.json");
+  return orders.filter((order) => order.customerId === customerId);
+}
