@@ -22,4 +22,8 @@ export const getOrderTool = tool({
       total: order.total,
     };
   },
+  errorFunction: (_runContext, _error) => {
+    return `No pude consultar los pedidos en este momento.
+     Pide al cliente que intente más tarde. `;
+  },
 });
