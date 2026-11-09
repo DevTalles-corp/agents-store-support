@@ -8,6 +8,8 @@ import { getOrderTool } from "./tools/orders.js";
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("Falta el OPENAI_API_KEY en el archivo .env");
 }
+console.log(JSON.stringify(getOrderTool.parameters, null, 2));
+
 const agent = new Agent({
   name: "Store Assistant",
   instructions: `Eres el asistente de soporte de una tienda online.
