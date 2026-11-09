@@ -8,7 +8,6 @@ import { getOrderTool } from "./tools/orders.js";
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("Falta el OPENAI_API_KEY en el archivo .env");
 }
-console.log(JSON.stringify(getOrderTool.parameters, null, 2));
 
 const agent = new Agent({
   name: "Store Assistant",
@@ -45,6 +44,16 @@ while (true) {
     sessionInputCallback: lastItems(30),
     maxTurns: 5,
   });
+  for (const item of result.newItems) {
+    if (
+      item.type === "tool_call_item" &&
+      item.rawItem.type === "function_call"
+    ) {
+      console.log(` ${item.rawItem.name} (${item.rawItem.arguments})`);
+    } else if (item.type === "tool_call_output_item") {
+      console.log(item.output);
+    }
+  }
   console.log(`\nAsistente: ${result.finalOutput}\n`);
 }
 terminal.close();
