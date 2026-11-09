@@ -11,7 +11,9 @@ export const getOrderTool = tool({
   }),
   execute: async ({ orderNumber }) => {
     const order = await findOrder(orderNumber);
-    if (!order) return `No encontré el pedido: ${orderNumber}`;
+    if (!order)
+      return `No encontré el pedido: ${orderNumber}. 
+    Pide al cliente que revise el número en su correo de confirmación. `;
     return {
       number: order.number,
       status: order.status,
