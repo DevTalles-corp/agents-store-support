@@ -3,6 +3,7 @@ import { MODEL } from "./config.js";
 import * as readline from "node:readline/promises";
 import { FileSession } from "./memory/fileSession.js";
 import { lastItems } from "./memory/historyWindow.js";
+import { getOrderTool } from "./tools/orders.js";
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("Falta el OPENAI_API_KEY en el archivo .env");
@@ -16,6 +17,7 @@ const agent = new Agent({
   modelSettings: {
     text: { verbosity: "low" },
   },
+  tools: [getOrderTool],
 });
 const terminal = readline.createInterface({
   input: process.stdin,
