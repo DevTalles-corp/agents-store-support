@@ -1,6 +1,7 @@
-import { tool } from "@openai/agents";
+import { type RunContext, tool } from "@openai/agents";
 import { z } from "zod";
 import { findOrder } from "../data/store.js";
+import { StoreContext } from "../context.js";
 
 export const getOrderTool = tool({
   name: "get_order",
@@ -9,11 +10,13 @@ export const getOrderTool = tool({
   parameters: z.object({
     orderNumber: z.string().describe('Número de pedido, por ejemplo: "1042".'),
   }),
-  execute: async ({ orderNumber }) => {
+  execute: async ({ orderNumber }, runContext?: RunContext<StoreContext>) => {
+    const customerId = runContext?.context.customerId;
     const order = await findOrder(orderNumber);
-    if (!order)
-      return `No encontré el pedido: ${orderNumber}. 
-    Pide al cliente que revise el número en su correo de confirmación. `;
+    if (!order || order.customerId !== customerId) {
+      return `No encontré el pedido: "${orderNumber}" entre los pedidos de este cliente.`;
+    }
+
     return {
       number: order.number,
       status: order.status,
