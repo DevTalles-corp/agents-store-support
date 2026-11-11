@@ -1,4 +1,4 @@
-import { Agent, run } from "@openai/agents";
+import { Agent, run, RunContext } from "@openai/agents";
 import { MODEL } from "./config.js";
 import * as readline from "node:readline/promises";
 import { FileSession } from "./memory/fileSession.js";
@@ -24,7 +24,10 @@ try {
 
   const agent = new Agent({
     name: "Store Assistant",
-    instructions: `Eres el asistente de soporte de una tienda online.
+    instructions: (
+      runContext: RunContext<StoreContext>,
+    ) => `Eres el asistente de soporte de una tienda online.
+     Estás atendiendo a ${runContext.context.name}
      Responde en español en dos o tres frases con un tono cercano .
      Si no sabes algo, lo dices: nunca inventas datos. `,
     model: MODEL,
