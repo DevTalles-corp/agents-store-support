@@ -1,6 +1,6 @@
 import { type RunContext, tool } from "@openai/agents";
 import { z } from "zod";
-import { findOrder } from "../data/store.js";
+import { findOrder, getCustomerOrders } from "../data/store.js";
 import { StoreContext } from "../context.js";
 
 export const getOrderTool = tool({
@@ -28,5 +28,21 @@ export const getOrderTool = tool({
   errorFunction: (_runContext, _error) => {
     return `No pude consultar los pedidos en este momento.
      Pide al cliente que intente más tarde. `;
+  },
+});
+
+export const listMyOrdersTool = tool({
+  name: "list_my_orders",
+  description:
+    "Lista los pedidos del cliente actual con su estado. Úsala si el cliente no recuerda el número.",
+  parameters: z.object({}),
+  execute: async (_input, runContext?: RunContext<StoreContext>) => {
+    const customerId = runContext?.context.customerId ?? "";
+    const orders = await getCustomerOrders(customerId);
+    return orders.map((o) => ({
+      number: o.number,
+      status: o.status,
+      purchaseDate: o.purchaseDate,
+    }));
   },
 });

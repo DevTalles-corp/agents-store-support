@@ -3,7 +3,7 @@ import { MODEL } from "./config.js";
 import * as readline from "node:readline/promises";
 import { FileSession } from "./memory/fileSession.js";
 import { lastItems } from "./memory/historyWindow.js";
-import { getOrderTool } from "./tools/orders.js";
+import { getOrderTool, listMyOrdersTool } from "./tools/orders.js";
 import { findCustomer } from "./data/store.js";
 import { StoreContext } from "./context.js";
 
@@ -34,7 +34,7 @@ try {
     modelSettings: {
       text: { verbosity: "low" },
     },
-    tools: [getOrderTool],
+    tools: [getOrderTool, listMyOrdersTool],
   });
   const terminal = readline.createInterface({
     input: process.stdin,
