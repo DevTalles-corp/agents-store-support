@@ -6,7 +6,10 @@ import { StoreContext } from "../context.js";
 export const getOrderTool = tool({
   name: "get_order",
   description:
-    "Devuelve el estado, la fecha estimada de entrega y el transportista de un pedido. ",
+    "Devuelve el estado, la fecha estimada de entrega " +
+    "y el transportista de un pedido " +
+    "del cliente actual. " +
+    "Úsala cuando el cliente ya dio su número de pedido.",
   parameters: z.object({
     orderNumber: z.string().describe('Número de pedido, por ejemplo: "1042".'),
   }),
