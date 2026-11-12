@@ -6,6 +6,7 @@ import { lastItems } from "./memory/historyWindow.js";
 import { getOrderTool, listMyOrdersTool } from "./tools/orders.js";
 import { findCustomer } from "./data/store.js";
 import { StoreContext } from "./context.js";
+import { getProductTool, searchProductsTool } from "./tools/products.js";
 
 try {
   if (!process.env.OPENAI_API_KEY) {
@@ -34,7 +35,7 @@ try {
     modelSettings: {
       text: { verbosity: "low" },
     },
-    tools: [getOrderTool, listMyOrdersTool],
+    tools: [getOrderTool, listMyOrdersTool, searchProductsTool, getProductTool],
   });
   const terminal = readline.createInterface({
     input: process.stdin,
