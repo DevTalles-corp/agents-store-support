@@ -22,6 +22,12 @@ export interface Product {
   stock: number;
   description: string;
 }
+export interface ProductFilter {
+  text: string | null;
+  category: string | null;
+  maxPrice: number | null;
+  inStockOnly: boolean;
+}
 
 export interface Customer {
   id: string;
@@ -44,6 +50,25 @@ export async function findCustomer(id: string): Promise<Customer | undefined> {
 export async function findProduct(id: string): Promise<Product | undefined> {
   const products = await readJson<Product[]>("products.json");
   return products.find((product) => product.id === id);
+}
+
+export async function filterProducts(
+  filter: ProductFilter,
+): Promise<Product[]> {
+  const products = await readJson<Product[]>("products.json");
+  const text = filter.text?.toLowerCase();
+  return products.filter((product) => {
+    if (
+      text &&
+      !`${product.name} ${product.description}`.toLowerCase().includes(text)
+    )
+      return false;
+    if (filter.category && filter.category !== product.category) return false;
+    if (filter.maxPrice !== null && product.price > filter.maxPrice)
+      return false;
+    if (filter.inStockOnly && product.stock === 0) return false;
+    return true;
+  });
 }
 
 export async function findOrder(
