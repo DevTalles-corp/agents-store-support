@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 export type OrderStatus = "preparing" | "shipped" | "delivered" | "cancelled";
@@ -35,11 +35,26 @@ export interface Customer {
   email: string;
 }
 
+export interface Complaint {
+  id: string;
+  customerId: string;
+  orderNumber: string;
+  reason: string;
+  details: string;
+  status: "open" | "refunded";
+  createdAt: string;
+  refundAmount?: number;
+}
+
 const DATA_DIR = path.join(process.cwd(), "data");
 
 async function readJson<T>(fileName: string): Promise<T> {
   const text = await readFile(path.join(DATA_DIR, fileName), "utf-8");
   return JSON.parse(text) as T;
+}
+
+async function writeJson(fileName: string, data: unknown): Promise<void> {
+  await writeFile(path.join(DATA_DIR, fileName), JSON.stringify(data, null, 2));
 }
 
 export async function findCustomer(id: string): Promise<Customer | undefined> {
