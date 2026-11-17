@@ -46,6 +46,21 @@ export interface Complaint {
   refundAmount?: number;
 }
 
+export async function saveComplaint(
+  data: Omit<Complaint, "id" | "status" | "createdAt">,
+): Promise<Complaint> {
+  const complaints = await readJson<Complaint[]>("complaints.json");
+  const complaint: Complaint = {
+    ...data,
+    id: `R-${String(complaints.length + 1).padStart(3, "0")}`,
+    status: "open",
+    createdAt: new Date().toISOString(),
+  };
+  complaints.push(complaint);
+  await writeJson("complaints.json", complaints);
+  return complaint;
+}
+
 const DATA_DIR = path.join(process.cwd(), "data");
 
 async function readJson<T>(fileName: string): Promise<T> {
