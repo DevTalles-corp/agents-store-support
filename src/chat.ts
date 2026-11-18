@@ -7,6 +7,7 @@ import { getOrderTool, listMyOrdersTool } from "./tools/orders.js";
 import { findCustomer } from "./data/store.js";
 import { StoreContext } from "./context.js";
 import { getProductTool, searchProductsTool } from "./tools/products.js";
+import { triageAgent } from "./agents/triage.js";
 
 try {
   if (!process.env.OPENAI_API_KEY) {
@@ -22,21 +23,6 @@ try {
     customerId: customer.id,
     name: customer.name,
   };
-
-  const agent = new Agent({
-    name: "Store Assistant",
-    instructions: (
-      runContext: RunContext<StoreContext>,
-    ) => `Eres el asistente de soporte de una tienda online.
-     Estás atendiendo a ${runContext.context.name}
-     Responde en español en dos o tres frases con un tono cercano .
-     Si no sabes algo, lo dices: nunca inventas datos. `,
-    model: MODEL,
-    modelSettings: {
-      text: { verbosity: "low" },
-    },
-    tools: [getOrderTool, listMyOrdersTool, searchProductsTool, getProductTool],
-  });
   const terminal = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -56,7 +42,7 @@ try {
       continue;
     }
 
-    const result = await run(agent, message, {
+    const result = await run(triageAgent, message, {
       context,
       session,
       sessionInputCallback: lastItems(30),
@@ -72,7 +58,9 @@ try {
         console.log(item.output);
       }
     }
-    console.log(`\nAsistente: ${result.finalOutput}\n`);
+    console.log(
+      `${result.lastAgent?.name}\nAsistente: ${result.finalOutput}\n`,
+    );
   }
   terminal.close();
 } catch (error) {
