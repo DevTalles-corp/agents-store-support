@@ -49,18 +49,16 @@ try {
       maxTurns: 5,
     });
     for (const item of result.newItems) {
-      if (
+      if (item.type === "handoff_output_item") {
+        console.log(`🔀 ${item.sourceAgent.name} → ${item.targetAgent.name}`);
+      } else if (
         item.type === "tool_call_item" &&
         item.rawItem.type === "function_call"
       ) {
-        console.log(` ${item.rawItem.name} (${item.rawItem.arguments})`);
-      } else if (item.type === "tool_call_output_item") {
-        console.log(item.output);
+        console.log(`🔧 ${item.rawItem.name}(${item.rawItem.arguments})`);
       }
     }
-    console.log(
-      `${result.lastAgent?.name}\nAsistente: ${result.finalOutput}\n`,
-    );
+    console.log(`Asistente: ${result.finalOutput}\n`);
   }
   terminal.close();
 } catch (error) {

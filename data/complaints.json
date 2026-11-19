@@ -1,0 +1,11 @@
+[
+  {
+    "customerId": "C-001",
+    "orderNumber": "1043",
+    "reason": "damaged_product",
+    "details": "El cliente informa que su pedido 1043 llegó roto.",
+    "id": "R-001",
+    "status": "open",
+    "createdAt": "2026-11-19T20:21:49.826Z"
+  }
+]
