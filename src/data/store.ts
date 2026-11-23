@@ -124,3 +124,7 @@ export async function getCustomerOrders(customerId: string): Promise<Order[]> {
   const orders = await readJson<Order[]>("orders.json");
   return orders.filter((order) => order.customerId === customerId);
 }
+
+export async function readPolices(): Promise<string> {
+  return readFile(path.join(DATA_DIR, "policies.md"), "utf-8");
+}
