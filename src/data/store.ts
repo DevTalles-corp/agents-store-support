@@ -81,17 +81,29 @@ export async function findProduct(id: string): Promise<Product | undefined> {
   const products = await readJson<Product[]>("products.json");
   return products.find((product) => product.id === id);
 }
+// Minúsculas y sin tildes: "Audífonos" → "audifonos"
+const normalize = (text: string) =>
+  text.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+
+// Plural simple en español: "parlantes" → "parlante", "relojes" → "reloj"
+const singular = (word: string) =>
+  word.length > 4 && word.endsWith("es") && !/[aeiou]es$/.test(word.slice(-3))
+    ? word.slice(0, -2)
+    : word.length > 3 && word.endsWith("s")
+      ? word.slice(0, -1)
+      : word;
 
 export async function filterProducts(
   filter: ProductFilter,
 ): Promise<Product[]> {
   const products = await readJson<Product[]>("products.json");
-  const text = filter.text?.toLowerCase();
+  const words = normalize(filter.text ?? "")
+    .split(/\s+/)
+    .filter(Boolean);
+
   return products.filter((product) => {
-    if (
-      text &&
-      !`${product.name} ${product.description}`.toLowerCase().includes(text)
-    )
+    const searchText = normalize(`${product.name} ${product.description}`);
+    if (words.some((word) => !searchText.includes(singular(word))))
       return false;
     if (filter.category && filter.category !== product.category) return false;
     if (filter.maxPrice !== null && product.price > filter.maxPrice)
