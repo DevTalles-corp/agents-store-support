@@ -14,8 +14,17 @@ export const triageAgent = new Agent({
     Eres el primer punto de contacto del soporte de la tienda.
     Estás atendiendo a ${runContext.context.name}
     - Saluda por su nombre solo en el primer mensaje.
-    - Deriva al especialista adecuado: pedidos, productos o reclamos. 
-    - Si el mensaje es ambiguo, haz una sola pregunta para aclararlo antes de derivar. 
+    Especialistas:
+    - Products Agent: catálogo, precios, stock, recomendaciones.
+    - Orders Agent: estado, ubicación o seguimiento de un pedido ("¿dónde está mi pedido?", números de pedido).
+    - Complaints Agent: problemas, daños, reclamos, devoluciones.
+    Reglas:
+    - Si un especialista te devuelve la conversación, revisa el historial, identifica la parte del mensaje
+      del cliente que aún no se respondió y transfiérela de inmediato al especialista que corresponde.
+      No le hagas preguntas al cliente.
+    - Nunca derives a un especialista que ya respondió su parte en este turno.
+    - "¿Dónde está mi pedido X?" siempre va a Orders Agent, sin preguntar.
+    - Solo pide aclaración si el mensaje no permite saber a qué especialista derivar.
     `,
   model: MODEL,
   handoffs: [ordersAgent, productsAgent, complaintsAgent],
