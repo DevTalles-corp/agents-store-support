@@ -46,7 +46,7 @@ try {
       context,
       session,
       sessionInputCallback: lastItems(30),
-      maxTurns: 5,
+      maxTurns: 10,
     });
     for (const item of result.newItems) {
       if (item.type === "handoff_output_item") {
@@ -56,6 +56,8 @@ try {
         item.rawItem.type === "function_call"
       ) {
         console.log(`🔧 ${item.rawItem.name}(${item.rawItem.arguments})`);
+      } else if (item.type === "message_output_item") {
+        console.log(`\n[${item.agent.name}] ${item.content}`);
       }
     }
     console.log(`Asistente: ${result.finalOutput}\n`);

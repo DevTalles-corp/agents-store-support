@@ -20,3 +20,7 @@ export const triageAgent = new Agent({
   model: MODEL,
   handoffs: [ordersAgent, productsAgent, complaintsAgent],
 });
+
+ordersAgent.handoffs = [triageAgent];
+productsAgent.handoffs = [triageAgent];
+complaintsAgent.handoffs = [triageAgent];
