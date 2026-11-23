@@ -7,5 +7,14 @@
     "id": "R-001",
     "status": "open",
     "createdAt": "2026-11-19T20:21:49.826Z"
+  },
+  {
+    "customerId": "C-001",
+    "orderNumber": "1043",
+    "reason": "damaged_product",
+    "details": "El pedido 1043 llegó roto.",
+    "id": "R-002",
+    "status": "open",
+    "createdAt": "2026-11-23T20:50:23.796Z"
   }
 ]

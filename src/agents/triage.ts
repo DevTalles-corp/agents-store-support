@@ -1,10 +1,22 @@
-import { Agent, RunContext } from "@openai/agents";
+import { Agent, handoff, RunContext } from "@openai/agents";
 import { StoreContext } from "../context.js";
 import { MODEL } from "../config.js";
 import { ordersAgent } from "./orders.js";
 import { productsAgent } from "./products.js";
 import { complaintsAgent } from "./complaints.js";
 import { RECOMMENDED_PROMPT_PREFIX } from "@openai/agents-core/extensions";
+import z from "zod";
+
+const complaintsHandoff = handoff(complaintsAgent, {
+  inputType: z.object({
+    summary: z.string().describe("Resumen del problema en una oración"),
+  }),
+  onHandoff: (runContext: RunContext<StoreContext>, data) => {
+    console.log(
+      `[handoff] Reclamo de ${runContext.context.customerId}: ${data?.summary}`,
+    );
+  },
+});
 
 export const triageAgent = new Agent({
   name: "Triage Agent",
@@ -27,7 +39,7 @@ export const triageAgent = new Agent({
     - Solo pide aclaración si el mensaje no permite saber a qué especialista derivar.
     `,
   model: MODEL,
-  handoffs: [ordersAgent, productsAgent, complaintsAgent],
+  handoffs: [ordersAgent, productsAgent, complaintsHandoff],
 });
 
 const triageRouter = triageAgent.clone({
