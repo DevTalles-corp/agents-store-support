@@ -11,5 +11,6 @@ export const productsAgent = new Agent<StoreContext>({
     "Dudas sobre el catálogo: productos, precios, características y stock.",
   instructions: `${RECOMMENDED_PROMPT_PREFIX}\n${PRODUCTS_INSTRUCTIONS}`,
   model: MODEL,
+  modelSettings: { toolChoice: "required" },
   tools: [searchProductsTool, getProductTool],
 });

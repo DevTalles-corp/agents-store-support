@@ -11,5 +11,6 @@ export const complaintsAgent = new Agent<StoreContext>({
      incorrecto o que no llegó.`,
   instructions: `${RECOMMENDED_PROMPT_PREFIX}\n${COMPLAINTS_INSTRUCTIONS} `,
   model: MODEL,
+  modelSettings: { toolChoice: "required" },
   tools: [createComplaintTool],
 });

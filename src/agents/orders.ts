@@ -10,5 +10,6 @@ export const ordersAgent = new Agent<StoreContext>({
   handoffDescription: "Estado de pedidos, fechas de entrega y transportistas.",
   instructions: `${RECOMMENDED_PROMPT_PREFIX}\n${ORDER_INTRUCTIONS}`,
   model: MODEL,
+  modelSettings: { toolChoice: "required" },
   tools: [getOrderTool, listMyOrdersTool],
 });

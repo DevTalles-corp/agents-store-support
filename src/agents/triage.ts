@@ -30,6 +30,10 @@ export const triageAgent = new Agent({
   handoffs: [ordersAgent, productsAgent, complaintsAgent],
 });
 
-ordersAgent.handoffs = [triageAgent];
-productsAgent.handoffs = [triageAgent];
-complaintsAgent.handoffs = [triageAgent];
+const triageRouter = triageAgent.clone({
+  modelSettings: { toolChoice: "required" },
+});
+
+ordersAgent.handoffs = [triageRouter];
+productsAgent.handoffs = [triageRouter];
+complaintsAgent.handoffs = [triageRouter];
