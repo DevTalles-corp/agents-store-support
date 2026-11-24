@@ -6,6 +6,7 @@ import { productsAgent } from "./products.js";
 import { complaintsAgent } from "./complaints.js";
 import { RECOMMENDED_PROMPT_PREFIX } from "@openai/agents-core/extensions";
 import z from "zod";
+import { askPolicesTool } from "./policies.js";
 
 const complaintsHandoff = handoff(complaintsAgent, {
   inputType: z.object({
@@ -37,12 +38,15 @@ export const triageAgent = new Agent({
     - Nunca derives a un especialista que ya respondió su parte en este turno.
     - "¿Dónde está mi pedido X?" siempre va a Orders Agent, sin preguntar.
     - Solo pide aclaración si el mensaje no permite saber a qué especialista derivar.
+    - Para dudas de envíos, devoluciones o garantía, usa ask_policies y responde tú. 
     `,
   model: MODEL,
+  tools: [askPolicesTool],
   handoffs: [ordersAgent, productsAgent, complaintsHandoff],
 });
 
 const triageRouter = triageAgent.clone({
+  tools: [],
   modelSettings: { toolChoice: "required" },
 });
 

@@ -4,6 +4,7 @@ import { COMPLAINTS_INSTRUCTIONS } from "../shared/instructions.js";
 import { MODEL } from "../config.js";
 import { createComplaintTool } from "../tools/complaints.js";
 import { RECOMMENDED_PROMPT_PREFIX } from "@openai/agents-core/extensions";
+import { askPolicesTool } from "./policies.js";
 
 export const complaintsAgent = new Agent<StoreContext>({
   name: "Complaints Agent",
@@ -12,5 +13,5 @@ export const complaintsAgent = new Agent<StoreContext>({
   instructions: `${RECOMMENDED_PROMPT_PREFIX}\n${COMPLAINTS_INSTRUCTIONS} `,
   model: MODEL,
   modelSettings: { toolChoice: "required" },
-  tools: [createComplaintTool],
+  tools: [createComplaintTool, askPolicesTool],
 });
