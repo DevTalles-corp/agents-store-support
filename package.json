@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx --env-file=.env src/chat.ts",
+    "scenarios": "tsx --env-file=.env src/scenarios.ts",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],
