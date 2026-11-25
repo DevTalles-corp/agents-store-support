@@ -1,4 +1,9 @@
-import { Agent, run, RunContext } from "@openai/agents";
+import {
+  Agent,
+  InputGuardrailTripwireTriggered,
+  run,
+  RunContext,
+} from "@openai/agents";
 import { MODEL } from "./config.js";
 import * as readline from "node:readline/promises";
 import { FileSession } from "./memory/fileSession.js";
@@ -42,12 +47,32 @@ try {
       continue;
     }
 
-    const result = await run(triageAgent, message, {
-      context,
-      session,
-      sessionInputCallback: lastItems(30),
-      maxTurns: 10,
-    });
+    let result;
+    try {
+      result = await run(triageAgent, message, {
+        context,
+        session,
+        sessionInputCallback: lastItems(30),
+        maxTurns: 10,
+      });
+    } catch (error) {
+      if (error instanceof InputGuardrailTripwireTriggered) {
+        const { guardrail, output } = error.result;
+        console.log(`[guardrail] ${guardrail.name}`, output.outputInfo);
+        if (guardrail.name === "Card Number Guardrail") {
+          console.log(
+            `\n[Tienda] Por seguridad, nunca compartas los datos de tu tarjeta en el chat.\n`,
+          );
+        } else {
+          console.log(
+            `\n[Tienda] Solo puedo ayudarte con temas de la tienda.\n`,
+          );
+        }
+        continue;
+      }
+      throw error;
+    }
+
     for (const item of result.newItems) {
       if (item.type === "handoff_output_item") {
         console.log(`🔀 ${item.sourceAgent.name} → ${item.targetAgent.name}`);
