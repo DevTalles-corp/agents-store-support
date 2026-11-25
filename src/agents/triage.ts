@@ -7,6 +7,7 @@ import { complaintsAgent } from "./complaints.js";
 import { RECOMMENDED_PROMPT_PREFIX } from "@openai/agents-core/extensions";
 import z from "zod";
 import { askPolicesTool } from "./policies.js";
+import { cardNumberGuardrail } from "../guardrails/cardNumber.js";
 
 const complaintsHandoff = handoff(complaintsAgent, {
   inputType: z.object({
@@ -21,6 +22,7 @@ const complaintsHandoff = handoff(complaintsAgent, {
 
 export const triageAgent = new Agent({
   name: "Triage Agent",
+  inputGuardrails: [cardNumberGuardrail],
   instructions: (runContext: RunContext<StoreContext>) =>
     `
     ${RECOMMENDED_PROMPT_PREFIX}
