@@ -56,6 +56,23 @@ try {
         sessionInputCallback: lastItems(30),
         maxTurns: 10,
       });
+      //Aprobación humana
+      while (result.interruptions.length > 0) {
+        for (const pending of result.interruptions) {
+          const response = await terminal.question(
+            `\n${pending.agent.name} quiere ejecutar ${pending.name} con ${pending.arguments}\n¿Aprobar? (s/n): `,
+          );
+          if (response.toLocaleLowerCase() === "s") {
+            result.state.approve(pending);
+          } else {
+            result.state.reject(pending);
+          }
+        }
+        result = await run(triageAgent, result.state, {
+          session,
+          maxTurns: 10,
+        });
+      }
     } catch (error) {
       if (error instanceof InputGuardrailTripwireTriggered) {
         const { guardrail, output } = error.result;

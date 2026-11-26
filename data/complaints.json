@@ -25,5 +25,15 @@
     "id": "R-003",
     "status": "open",
     "createdAt": "2026-11-24T12:34:15.001Z"
+  },
+  {
+    "customerId": "C-001",
+    "orderNumber": "1043",
+    "reason": "damaged_product",
+    "details": "El pedido llegó roto. El cliente solicita un reembolso.",
+    "id": "R-004",
+    "status": "refunded",
+    "createdAt": "2026-11-26T21:29:46.754Z",
+    "refundAmount": 19
   }
 ]
