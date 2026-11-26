@@ -1,6 +1,7 @@
 import {
   Agent,
   InputGuardrailTripwireTriggered,
+  OutputGuardrailTripwireTriggered,
   run,
   RunContext,
 } from "@openai/agents";
@@ -68,6 +69,11 @@ try {
             `\n[Tienda] Solo puedo ayudarte con temas de la tienda.\n`,
           );
         }
+        continue;
+      } else if (error instanceof OutputGuardrailTripwireTriggered) {
+        console.log(
+          `\n[Tienda] Déjame derivar tu caso a una persona del equipo para darte una respuesta exacta.\n`,
+        );
         continue;
       }
       throw error;

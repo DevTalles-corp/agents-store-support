@@ -5,6 +5,7 @@ import { MODEL } from "../config.js";
 import { createComplaintTool } from "../tools/complaints.js";
 import { RECOMMENDED_PROMPT_PREFIX } from "@openai/agents-core/extensions";
 import { askPolicesTool } from "./policies.js";
+import { commitmentsGuardrail } from "../guardrails/commitments.js";
 
 export const complaintsAgent = new Agent<StoreContext>({
   name: "Complaints Agent",
@@ -14,4 +15,5 @@ export const complaintsAgent = new Agent<StoreContext>({
   model: MODEL,
   modelSettings: { toolChoice: "required" },
   tools: [createComplaintTool, askPolicesTool],
+  outputGuardrails: [commitmentsGuardrail],
 });
