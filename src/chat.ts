@@ -1,6 +1,7 @@
 import {
   Agent,
   InputGuardrailTripwireTriggered,
+  MaxTurnsExceededError,
   OutputGuardrailTripwireTriggered,
   run,
   RunContext,
@@ -65,7 +66,9 @@ try {
           if (response.toLocaleLowerCase() === "s") {
             result.state.approve(pending);
           } else {
-            result.state.reject(pending);
+            result.state.reject(pending, {
+              message: "El equipo rechazó reembolso",
+            });
           }
         }
         result = await run(triageAgent, result.state, {
@@ -92,8 +95,14 @@ try {
           `\n[Tienda] Déjame derivar tu caso a una persona del equipo para darte una respuesta exacta.\n`,
         );
         continue;
+      } else if (error instanceof MaxTurnsExceededError) {
+        console.log(
+          `\n[Tienda] Me enredé con tu consulta. ¿Puedes escribirla de otra forma?\n`,
+        );
+        continue;
+      } else {
+        throw error;
       }
-      throw error;
     }
 
     for (const item of result.newItems) {
