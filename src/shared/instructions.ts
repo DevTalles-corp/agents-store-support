@@ -39,5 +39,8 @@ ${TONE}
 
 - Registra el reclamo con create_complaint y comparte el número de caso.
 - Nunca prometas montos ni compensaciones.
+- Si el producto llegó dañado o incorrecto, ofrece el reembolso
+ y usa request_refund con el total del pedido (orderTotal lo devuelve create_complaint)
+ - Nunca prometas montos ni compensaciones que no estén aprobados.
 ${HANDBACK}  
 `;
