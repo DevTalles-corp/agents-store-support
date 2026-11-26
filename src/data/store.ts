@@ -61,6 +61,23 @@ export async function saveComplaint(
   return complaint;
 }
 
+export async function recordRefund(
+  customerId: string,
+  complaintId: string,
+  amount: number,
+): Promise<Complaint | undefined> {
+  const complaints = await readJson<Complaint[]>("complaints.json");
+  // Solo se reembolsan reclamos del cliente actual
+  const complaint = complaints.find(
+    (r) => r.id === complaintId && r.customerId === customerId,
+  );
+  if (!complaint) return undefined;
+  complaint.status = "refunded";
+  complaint.refundAmount = amount;
+  await writeJson("complaints.json", complaints);
+  return complaint;
+}
+
 const DATA_DIR = path.join(process.cwd(), "data");
 
 async function readJson<T>(fileName: string): Promise<T> {

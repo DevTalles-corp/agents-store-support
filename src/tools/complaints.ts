@@ -1,7 +1,7 @@
 import { type RunContext, tool } from "@openai/agents";
 import type { StoreContext } from "../context.js";
 import z from "zod";
-import { findOrder, saveComplaint } from "../data/store.js";
+import { findOrder, recordRefund, saveComplaint } from "../data/store.js";
 import { compaction } from "@openai/agents/sandbox";
 
 export const createComplaintTool = tool({
@@ -40,5 +40,26 @@ export const createComplaintTool = tool({
       status: complaint.status,
       orderTotal: order.total,
     };
+  },
+});
+
+export const requestRefundTool = tool({
+  name: "request_refund",
+  description: `Ejecuta el reembolso de un reclamo y es registrado.
+   Requiere aprobación de una persona del equipo.`,
+  needsApproval: true,
+  parameters: z.object({
+    complaintId: z.string().describe('ID del reclamo, por ejemplo: "R-001" '),
+    amount: z.number().positive().describe("Monto reembolsar en dólares"),
+  }),
+  execute: async (
+    { complaintId, amount },
+    runContext?: RunContext<StoreContext>,
+  ) => {
+    const customerId = runContext?.context.customerId ?? "";
+    const complaint = await recordRefund(customerId, complaintId, amount);
+    if (!complaint)
+      return `No encontré el reclamo: ${customerId} entre los reclamos del cliente. `;
+    return `Reembolso de ${amount} dólares aprobado por el reclamo ${complaintId}. `;
   },
 });
