@@ -16,6 +16,7 @@ const topicClassifier = new Agent({
 
 export const topicGuardrail: InputGuardrail = {
   name: "Topic Guardrail",
+  runInParallel: false,
   execute: async ({ input, context }) => {
     const result = await run(topicClassifier, input, { context });
     return {
